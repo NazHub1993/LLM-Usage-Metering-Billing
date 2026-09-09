@@ -1,7 +1,12 @@
 from fastapi import FastAPI 
 
+from app.routers import auth
+
 app=FastAPI(title="LLM-Usage-Metering-Billing")
 
-@app.get("/health")
+app.include_router(auth.router)
+
+
+@app.get("/")
 def get_health():
     return {"status": "ok"}
