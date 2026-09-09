@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from app.core.client import supabase
+from app.core.deps import get_current_tenant, TenantContext
 from supabase_auth.errors import AuthApiError
 
 router = APIRouter(prefix="/api/v1/auth")
@@ -145,19 +146,5 @@ def logout():
 
 
 @router.get("/me")
-def me(access_token: str):
-
-    try:
-        result = supabase.auth.get_user(access_token)
-    except AuthApiError as e:
-        raise HTTPException(401, str(e))
-    except Exception as e:
-        raise HTTPException(500, "Failed to get user")
-
-    if result.user is None:
-        raise HTTPException(401, "Invalid Token")
-
-    return {
-        "id": result.user.id,
-        "email": result.user.email
-    }
+def me(ctx: TenantContext = Depends(get_current_tenant)):
+    return {"id": ctx.user_id, "email": ctx.email, "tenant_id": ctx.tenant_id}
