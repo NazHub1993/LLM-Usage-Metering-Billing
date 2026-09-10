@@ -34,5 +34,7 @@ def get_plan_limit(tenant_id: str, event_type: str) -> int:
 def check_quota(tenant_id: str, event_type: str, requested_quantity: int) -> tuple[bool, int, int]:
     used = get_current_usage(tenant_id, event_type)
     limit = get_plan_limit(tenant_id, event_type)
+    print("Used till now: ",used)
+    print("The amount you want: ",used+requested_quantity)
     allowed = (used+requested_quantity) <= limit
     return allowed, used, limit
