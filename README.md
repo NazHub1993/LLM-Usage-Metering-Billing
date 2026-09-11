@@ -6,7 +6,6 @@ A backend service that answers the three questions every SaaS product needs answ
 2. What should they pay?
 3. Have they hit their plan's limit?
 
-Built for the FlyRank Internship Backend Track capstone.
 
 The project uses **FastAPI + Supabase (Auth + PostgreSQL) + Stripe (test mode)** and implements idempotent usage metering, quota enforcement, AI-token pricing, subscription management, and signature-verified Stripe webhooks.
 
