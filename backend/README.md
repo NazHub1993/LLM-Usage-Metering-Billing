@@ -226,7 +226,7 @@ Currently, the project uses manual verification through curl/Postman requests an
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone <my-repo-url>
 cd LLM-Usage-Metering-Billing/backend
 ```
 
