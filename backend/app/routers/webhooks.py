@@ -105,4 +105,16 @@ async def stripe_webhook(request: Request):
 
         print("Updated Subscription:", updated.data)
 
-    return {"status": "processed"}
+        return {"status": "processed"}
+
+    elif event["type"] == "customer.subscription.deleted":
+            subscription = event["data"]["object"]
+            stripe_sub_id = subscription["id"]
+
+            free_plan = supabase.table("plans").select(
+            "id").eq("name", "Free").single().execute()
+
+            supabase.table("subscriptions").update({
+        "plan_id": free_plan.data["id"],
+        "status": "canceled",
+    }).eq("stripe_subscription_id", stripe_sub_id).execute()
